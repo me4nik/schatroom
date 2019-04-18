@@ -6,8 +6,8 @@ const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const databaseUrl = 'mongodb://solovyoff:nikit1@ds143666.mlab.com:43666/heroku_xs6fxc9k';
 const path = require('path');
-//const PORT = process.env.PORT;
-const PORT = 3000;
+const PORT = process.env.PORT;
+//const PORT = 3000;
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
