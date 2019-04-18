@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Api documentation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <h1><br>Documentation</h1>
+    <a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Back to chat</a>
+    <h1><br>Get 10 messages by page:<br></h1>
+    <h5>Returns 10 messages by specified page e.g. messages 0-9 for 0 page</h5>
+    <h4><br>GET schatroom.herokuapp.com/api/messages/list/:page</h4>
+    <div class="jumbotron">
+    <textarea id ="get10Request" class="form-control">api/messages/list/0</textarea>
+    <br>
+    <button id="sendGET10" class="btn btn-success">Send</button>
+    </div>
+    <h1><br>Get single message:<br></h1>
+    <h5>Returns message with specified unique identifier</h5>
+    <h4><br>GET schatroom.herokuapp.com/api/messages/single/:id</h4>
+    <div class="jumbotron">
+    <textarea id = "getSingleRequest" class="form-control" placeholder="identifier of message you want to show">api/messages/single/5cb866ae4881a65b9a8ba26d</textarea>
+    <br>
+    <button id="sendGETSingle" class="btn btn-success">Send</button>
+    </div>
+    <h1><br>Send a message:<br></h1>
+    <h5>Sends a message with <strong>email</strong> and <strong>text</strong> specified in post request body</h5>
+    <h4><br>POST schatroom.herokuapp.com/api/messages/create</h4>
+    <div class="jumbotron">
+    <textarea id = "postRequest" class="form-control" placeholder="Your api request here">api/messages/create</textarea>
+    <br>
+    <textarea id = "email" class="form-control" placeholder="user email"></textarea>
+    <br>
+    <textarea id = "text" class="form-control" placeholder="message text"></textarea>
+    <br>
+    <button id="sendPOST" class="btn btn-success">Send</button>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        $("#sendGET10").click(()=>{
+            $.get( $("#get10Request").val(), function( data, status ) {
+                    alert("Data: " + JSON.stringify(data) + " \nstatus: " + status )
+            })
+                .fail(function() {
+                    alert('Data: Page is not found \nstatus: 404'); // or whatever
+                });
+        });
+        $("#sendGETSingle").click(()=>{
+            $.get( $("#getSingleRequest").val(), function( data, status ) {
+                alert("Data: " + JSON.stringify(data) + " \nstatus: " + status )
+            })
+                .fail(function() {
+                    alert('Data: Message is not found \nstatus: 404'); // or whatever
+                });
+        });
+        $("#sendPOST").click(()=>{
+            $.post( $("#postRequest").val(), {
+                email: $("#email").val(),
+                text: $("#text").val()
+            }, function( data, status ) {
+                alert("Data: " + JSON.stringify(data) + " \nstatus: " + status )
+            })
+                .catch(err => {
+                    alert("Status: " + err.status + "\nError message: " + err.responseJSON.error )
+                })
+        });
+
+    });
+</script>
+</body>
+</html>
